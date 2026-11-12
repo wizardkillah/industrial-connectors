@@ -1,5 +1,7 @@
 # industrial-connectors
 
+[![CI](https://github.com/wizardkillah/industrial-connectors/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/wizardkillah/industrial-connectors/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Dependency-free Python clients for talking to building-automation and PLC equipment.
 Extracted from real monitoring work on critical infrastructure and rewritten as generic,
 anonymized, tested building blocks.
