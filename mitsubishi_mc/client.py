@@ -83,7 +83,7 @@ class McClient:
     # framing ---------------------------------------------------------------
     def _header(self, sub: int, name: str, head: int, points: int) -> bytes:
         return (bytes([sub, 0xFF]) + struct.pack("<H", self.timer) +
-                struct.pack("<I", head) + _device_code(name) + bytes([points, 0x00]))
+                struct.pack("<I", head) + _device_code(name) + bytes([points & 0xFF, 0x00]))   # 256 points is sent as 0
 
     def _recv_exact(self, n: int) -> bytes:
         buf = b""
@@ -100,7 +100,8 @@ class McClient:
         self.sock.sendall(request)
         head = self._recv_exact(2)
         if head[1] != 0x00:
-            abnormal = self._recv_exact(1)[0]
+            # Only end code 0x5B (PLC error) is followed by an abnormal code byte.
+            abnormal = self._recv_exact(1)[0] if head[1] == 0x5B else None
             raise McError(head[1], abnormal)
         return self._recv_exact(data_len)
 
